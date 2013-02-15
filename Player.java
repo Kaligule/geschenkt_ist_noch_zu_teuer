@@ -26,4 +26,13 @@ public class Player {
 		return collectedCards;
 	}
 
+	private boolean pay(){
+		if (coins == 0) {
+			return false;
+		} else {
+			// insert inteligence here
+			return true;
+		}
+	}
+
 }
