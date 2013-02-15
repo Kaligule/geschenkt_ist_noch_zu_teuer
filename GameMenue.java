@@ -3,10 +3,10 @@ import java.lang.String;
 
 public class GameMenue {
 
-	public static int mode=0;
+	public static void main(String[] args) {
+		int mode = 0;
 
-	public static void start() {
-		Scanner myInput = new Scanner(System.in);
+		Scanner myScanner = new Scanner(System.in);
 		System.out.println("gametypes:");
 		System.out.println("at the moment only 0 and 1 work");
 		System.out.println("0 = exit");
@@ -16,9 +16,9 @@ public class GameMenue {
 		System.out.print("choose: ");
 		
 		do {
-			String temp = myInput.next();
+			String temp = myScanner.next();
 			String temp2 = "";
-			for (int i = 0; i<temp.length(); i++){
+			for (int i = 0; i < temp.length(); i++){
 				if ((int) temp.charAt(i) >= 48 && (int) temp.charAt(i) <= 57){
 					temp2 += temp.charAt(i);	
 				}
@@ -40,11 +40,13 @@ public class GameMenue {
 		if (mode!=0) {	
 
 			//Whot to do when mode is inserted
-			//if (mode==1){
-				int[] omitted = new int[] {3,4,5,6};
-				Game newGame = new Game(4, omitted);
-			//}
-
+			int[] omitted = new int[] {3,4,5,6};
+			Game newGame = new Game(4, omitted);
+			while (!newGame.enoughPlayers()){
+				System.out.print("A new Player is created. What will his name be? ");
+				String name = myScanner.next();
+				newGame.addPlayer(name);
+			}
 			
 			System.out.println("Game starts in mode "+mode);		
 			newGame.run();
@@ -53,10 +55,6 @@ public class GameMenue {
 			System.exit(0);
 		}
 
-	}
-
-	public static void main(String[] args) {
-		start();
 	}
 
 }

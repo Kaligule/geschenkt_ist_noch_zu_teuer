@@ -2,15 +2,16 @@ public class Game {
 
 	private int reqPlayers;
 	private int numPlayers = 0;
-	private int startcoins = 0;
+	private int startCoins = 11;
 	private int minCardValue = 3;
 	private int maxCardValue = 35;
 	private int numOmitted;
 	private int[] omitted;
-	private Player[] players = new Player[reqPlayers];
+	private Player[] players;
 
 	public Game(int reqPlayers, int[] omitted) {
 		this.reqPlayers = reqPlayers;
+		this.players = new Player[reqPlayers];
 		this.omitted = omitted;
 		this.numOmitted = omitted.length;
 	}
@@ -21,9 +22,9 @@ public class Game {
 	}
 
 
-	public Player addPlayer(String name, int coins) {
+	public Player addPlayer(String name) {
 		if (numPlayers < reqPlayers){
-				Player newPlayer = new Player (this, name, startcoins);
+				Player newPlayer = new Player (this, name, startCoins);
 				players [numPlayers] = newPlayer; 
 				numPlayers += 1;
 				return newPlayer;
@@ -42,6 +43,10 @@ public class Game {
 		// TODO
 		return null;
 	}*/
+
+	public boolean enoughPlayers(){
+		return (numPlayers == reqPlayers);
+	}
 
 	public void run(){
 		//Play the Game TODO
