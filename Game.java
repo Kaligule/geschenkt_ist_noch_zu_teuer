@@ -10,12 +10,14 @@ public class Game {
 	private int[] omitted;
 	private Player[] players;
 	private int[] cardsOnStack;
+	private int cardInTheMiddle;
+	private int coinsInTheMiddle;
 
 	public Game(int reqPlayers, int[] omitted) {
 		this.reqPlayers = reqPlayers;
 		this.players = new Player[reqPlayers];
 		this.omitted = omitted;
-		prepareCardsOnStack();
+		cardsOnStack = prepareCardsOnStack();
 	}
 
 	private int[] prepareCardsOnStack(){
@@ -76,7 +78,36 @@ public class Game {
 		return (numPlayers == reqPlayers);
 	}
 
+	private void updateCardInTheMiddle(int numCardsOnStack){
+		System.out.println("There are " + numCardsOnStack + " Cards on the Stack.");
+		cardInTheMiddle = cardsOnStack[numCardsOnStack];
+		System.out.println("The card in the middle is the " + cardInTheMiddle);
+	}
+
 	public void run(){
-		//Play the Game TODO
+		System.out.println("The Game beginns…");
+		int numCardsOnStack = cardsOnStack.length;
+		System.out.println("I was here!");
+
+		int move = 0;
+		coinsInTheMiddle = 0;
+
+		while(numCardsOnStack != 0){
+			Player currentPlayer = getPlayer(move);
+			if (currentPlayer.wouldYouPay(cardInTheMiddle, coinsInTheMiddle)){
+				//TODO
+				currentPlayer.pay();
+			} else {
+				//TODO
+				currentPlayer.take(cardInTheMiddle);
+				numCardsOnStack -= 1;
+				updateCardInTheMiddle(numCardsOnStack);
+			}
+
+
+
+
+			move += 1;
+		}
 	}
 }

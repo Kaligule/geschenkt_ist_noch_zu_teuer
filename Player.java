@@ -11,7 +11,7 @@ public class Player {
 		this.game = game;
 		this.name = name;
 		this.coins = coins;
-		this.collectedCards = new int[game.getMaxCardValue()];
+		this.collectedCards = new int[game.getMaxCardValue() + 1];
 	}
 
 
@@ -23,7 +23,7 @@ public class Player {
 		return collectedCards;
 	}
 
-	private boolean pay(){
+	public boolean wouldYouPay(int cardInTheMiddle, int coinsInTheMiddle){
 		if (coins == 0) {
 			return false;
 		} else {
@@ -32,9 +32,17 @@ public class Player {
 		}
 	}
 
+	public void pay(){
+		coins--;
+	}
+
+	public void take(int card){
+		collectedCards[card] = card;
+	}
+
 	private int collectedPoints(){
 		int collectedPoints = 0;
-		for (int i = collectedCards.length; i >= 1; i--){
+		for (int i = collectedCards.length + 1; i >= 1; i--){
 			if (collectedCards[i] != 0 &&  collectedCards[i-1] == 0) {
 				collectedPoints += collectedCards[i];
 			}
