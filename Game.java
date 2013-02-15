@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Game {
 
 	private int reqPlayers;
@@ -5,17 +7,35 @@ public class Game {
 	private int startCoins = 11;
 	private int minCardValue = 3;
 	private int maxCardValue = 35;
-	private int numOmitted;
 	private int[] omitted;
 	private Player[] players;
+	private int[] cardsOnStack;
 
 	public Game(int reqPlayers, int[] omitted) {
 		this.reqPlayers = reqPlayers;
 		this.players = new Player[reqPlayers];
 		this.omitted = omitted;
-		this.numOmitted = omitted.length;
+		prepareCardsOnStack();
 	}
 
+	private int[] prepareCardsOnStack(){
+		int[] hilfsliste = new int[maxCardValue + 1];
+		for (int i = minCardValue; i <= maxCardValue; i++){
+			hilfsliste[i] = i;
+		}
+		for (int i : omitted) {
+			hilfsliste[i] = 0;
+		}
+		int[] cardsOnStack = new int[ maxCardValue - minCardValue - omitted.length + 1 ];
+		int zufuellen = 0;
+		for(int i : hilfsliste){
+			if (i != 0){
+				cardsOnStack[zufuellen] = i;
+				zufuellen++;
+			}
+		}
+		return cardsOnStack;
+	}
 
 	public int getNumberOfPlayers() {
 		return numPlayers;
@@ -43,6 +63,14 @@ public class Game {
 		// TODO
 		return null;
 	}*/
+
+	public int getMinCardValue(){
+		return minCardValue;
+	}
+
+	public int getMaxCardValue(){
+		return maxCardValue;
+	}
 
 	public boolean enoughPlayers(){
 		return (numPlayers == reqPlayers);

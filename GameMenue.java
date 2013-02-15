@@ -1,3 +1,4 @@
+import java.util.*;
 import java.util.Scanner;
 import java.lang.String;
 
@@ -40,7 +41,8 @@ public class GameMenue {
 		if (mode!=0) {	
 
 			//Whot to do when mode is inserted
-			int[] omitted = new int[] {3,4,5,6};
+			int[] omitted = {5,6,7,8};
+
 			Game newGame = new Game(4, omitted);
 			while (!newGame.enoughPlayers()){
 				System.out.print("A new Player is created. What will his name be? ");
