@@ -26,6 +26,4 @@ public class Player {
 		return collectedCards;
 	}
 
-	
-
 }
