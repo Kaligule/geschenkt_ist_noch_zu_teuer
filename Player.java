@@ -36,13 +36,14 @@ public class Player {
 		coins--;
 	}
 
-	public void take(int card){
-		collectedCards[card] = card;
+	public void take(int newCard, int newCoins){
+		collectedCards[newCard] = newCard;
+		coins += newCoins;
 	}
 
-	private int collectedPoints(){
+	public int getCollectedPoints(){
 		int collectedPoints = 0;
-		for (int i = collectedCards.length + 1; i >= 1; i--){
+		for (int i = collectedCards.length - 1; i >= 1; i--){
 			if (collectedCards[i] != 0 &&  collectedCards[i-1] == 0) {
 				collectedPoints += collectedCards[i];
 			}

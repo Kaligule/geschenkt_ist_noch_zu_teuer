@@ -28,14 +28,8 @@ public class Game {
 		for (int i : omitted) {
 			hilfsliste[i] = 0;
 		}
-		int[] cardsOnStack = new int[ maxCardValue - minCardValue - omitted.length + 1 ];
-		int zufuellen = 0;
-		for(int i : hilfsliste){
-			if (i != 0){
-				cardsOnStack[zufuellen] = i;
-				zufuellen++;
-			}
-		}
+		int[] cardsOnStack = takeAwayZeros(hilfsliste);
+		
 		return cardsOnStack;
 	}
 
@@ -79,35 +73,73 @@ public class Game {
 	}
 
 	private void updateCardInTheMiddle(int numCardsOnStack){
-		System.out.println("There are " + numCardsOnStack + " Cards on the Stack.");
-		cardInTheMiddle = cardsOnStack[numCardsOnStack];
+		if (numCardsOnStack == 0){
+			System.out.println("This was the last card.");
+		} else {
+			cardInTheMiddle = cardsOnStack[numCardsOnStack - 1];
+			System.out.println("There are " + numCardsOnStack + " Cards on the Stack.");
 		System.out.println("The card in the middle is the " + cardInTheMiddle);
+		}
 	}
 
 	public void run(){
 		System.out.println("The Game beginns…");
 		int numCardsOnStack = cardsOnStack.length;
-		System.out.println("I was here!");
-
+		updateCardInTheMiddle(numCardsOnStack);
 		int move = 0;
 		coinsInTheMiddle = 0;
 
 		while(numCardsOnStack != 0){
 			Player currentPlayer = getPlayer(move);
 			if (currentPlayer.wouldYouPay(cardInTheMiddle, coinsInTheMiddle)){
-				//TODO
+
 				currentPlayer.pay();
+				coinsInTheMiddle++;
+				System.out.println(currentPlayer.getName() + " pays 1 coin!");
+				System.out.println("There are " + coinsInTheMiddle+ " Coins in the middle now!");
+
 			} else {
-				//TODO
-				currentPlayer.take(cardInTheMiddle);
+				System.out.println(currentPlayer.getName() + " takes the Card and the " + coinsInTheMiddle + " Coins from the middle.");
+				currentPlayer.take(cardInTheMiddle, coinsInTheMiddle);
 				numCardsOnStack -= 1;
+				coinsInTheMiddle = 0;
 				updateCardInTheMiddle(numCardsOnStack);
 			}
-
-
-
-
 			move += 1;
 		}
+
+		for (int i = 0; i <= numPlayers; i++){
+			Player player = getPlayer(i);
+			System.out.println(player.getName() + " has collected these Cards:");
+			showCards(player.getCollectedCards());
+			System.out.println("This makes " + player.getCollectedPoints() + " Points");
+		}
+
 	}
+
+	private void showCards(int[] cards){
+		System.out.println(Arrays.toString(takeAwayZeros(cards)));
+	}
+
+	private int[] takeAwayZeros(int[] array){
+		int anzNichtNuller = 0;
+		for(int i : array){
+			if (i != 0){
+				anzNichtNuller++;
+			}
+		}
+
+		int [] newArray = new int[anzNichtNuller];
+
+		int zufuellen = 0;
+		for(int i : array){
+			if (i != 0){
+				newArray[zufuellen] = i;
+				zufuellen++;
+			}
+		}
+		return newArray;
+
+	}
+
 }

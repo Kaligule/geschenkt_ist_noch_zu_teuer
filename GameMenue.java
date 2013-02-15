@@ -41,7 +41,7 @@ public class GameMenue {
 		if (mode!=0) {	
 
 			//Whot to do when mode is inserted
-			int[] omitted = {5,6,7,8};
+			int[] omitted = {};
 
 			Game newGame = new Game(4, omitted);
 			while (!newGame.enoughPlayers()){
