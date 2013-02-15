@@ -38,8 +38,12 @@ public class Game {
 	}
 
 
-	public int getPosition(Player current) {
+	/*public int getPosition(Player current) {
 		// TODO
 		return null;
+	}*/
+
+	public void run(){
+		//Play the Game TODO
 	}
 }
