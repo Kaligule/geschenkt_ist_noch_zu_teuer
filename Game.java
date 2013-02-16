@@ -72,8 +72,9 @@ public class Game {
 			System.out.println("This was the last card.");
 		} else {
 			cardInTheMiddle = cardsOnStack[numCardsOnStack - 1];
-			System.out.println("There are " + numCardsOnStack + " Cards on the Stack.");
-		System.out.println("The card in the middle is the " + cardInTheMiddle);
+			System.out.println("The card in the middle is the " + cardInTheMiddle);
+			System.out.println("There are " + (numCardsOnStack -1)+ " other cards on the Stack.");
+
 		}
 	}
 
@@ -91,13 +92,13 @@ public class Game {
 				currentPlayer.pay();
 				coinsInTheMiddle++;
 				System.out.println(currentPlayer.getName() + " pays 1 coin!");
-				System.out.println("There are " + coinsInTheMiddle+ " Coins in the middle now!");
 
 			} else {
 				System.out.println(currentPlayer.getName() + " takes the Card and the " + coinsInTheMiddle + " Coins from the middle.");
 				currentPlayer.take(cardInTheMiddle, coinsInTheMiddle);
 				numCardsOnStack -= 1;
 				coinsInTheMiddle = 0;
+				System.out.println();
 				updateCardInTheMiddle(numCardsOnStack);
 			}
 			move += 1;

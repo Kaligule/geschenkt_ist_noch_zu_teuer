@@ -109,10 +109,10 @@ public class Player {
 			return false;
 		} else if (strategie == 4) {
 			// "human" asks always for permission
-			System.out.println("Do you want to take card and coins or pay 1 coin?");
+			System.out.println("There are " + coinsInTheMiddle+ " Coins in the middle now!");
+			System.out.println(name + ", do you want to take card and coins or pay 1 coin?");
 			System.out.println("0 = take card and coins");
 			System.out.println("1 = pay");
-			System.out.println();
 			int[] allowedActions = {0,1};
 			int action = letUserChoose(allowedActions, myScanner);
 			return (action == 1);
