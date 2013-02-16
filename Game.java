@@ -29,7 +29,8 @@ public class Game {
 			hilfsliste[i] = 0;
 		}
 		int[] cardsOnStack = takeAwayZeros(hilfsliste);
-		
+		//Doesn't work TODO
+		//Collections.shuffel(Arrays.asList(cardsOnStack));
 		return cardsOnStack;
 	}
 
@@ -38,27 +39,21 @@ public class Game {
 	}
 
 
-	public Player addPlayer(String name) {
-		if (numPlayers < reqPlayers){
-				Player newPlayer = new Player (this, name, startCoins);
+	public Player addPlayer(String name, int strategie) {
+		if (numPlayers < reqPlayers ){
+				Player newPlayer = new Player (this, name, strategie, startCoins);
 				players [numPlayers] = newPlayer; 
 				numPlayers += 1;
+				System.out.println("We have created " + name + ".");
 				return newPlayer;
 		} else {
 			return null;
 		}
 	}
-	
 
 	public Player getPlayer(int position) {
 		return players[position % numPlayers];
 	}
-
-
-	/*public int getPosition(Player current) {
-		// TODO
-		return null;
-	}*/
 
 	public int getMinCardValue(){
 		return minCardValue;
@@ -107,12 +102,17 @@ public class Game {
 			}
 			move += 1;
 		}
+		System.out.println();
+		System.out.println("/////////////////////////   Game Over   /////////////////////////");
+		System.out.println();
+		System.out.println("Name\tPoints\tCards");
 
-		for (int i = 0; i <= numPlayers; i++){
+		for (int i = 0; i < numPlayers; i++){
 			Player player = getPlayer(i);
-			System.out.println(player.getName() + " has collected these Cards:");
-			showCards(player.getCollectedCards());
-			System.out.println("This makes " + player.getCollectedPoints() + " Points");
+			String name = player.getName();
+			int points = player.getCollectedPoints();
+			String cards = Arrays.toString(takeAwayZeros(player.getCollectedCards()));
+			System.out.println(name + "\t" + points + "\t" + cards);
 		}
 
 	}

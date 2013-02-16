@@ -8,46 +8,38 @@ public class GameMenue {
 		int mode = 0;
 
 		Scanner myScanner = new Scanner(System.in);
-		System.out.println("gametypes:");
-		System.out.println("at the moment only 0 and 1 work");
+		System.out.println("Do you want to play?");
 		System.out.println("0 = exit");
-		System.out.println("1 = just computers");
-		System.out.println("2 = humans");
+		System.out.println("1 = play");
 		System.out.println();
-		System.out.print("choose: ");
-		
-		do {
-			String temp = myScanner.next();
-			String temp2 = "";
-			for (int i = 0; i < temp.length(); i++){
-				if ((int) temp.charAt(i) >= 48 && (int) temp.charAt(i) <= 57){
-					temp2 += temp.charAt(i);	
-				}
-			}
-			
-			if (temp2 == "")
-				mode = -1;
-			else 
-				mode = Integer.parseInt(temp2);
-			
-			if (mode<0 || mode>2)
-			{
-				System.out.println("wrong input! try again...");
-				System.out.println();
-				System.out.print("chosse: ");
-			}
-		} while (mode<0 || mode>2);
+		int[] allowedModes = {0,1};
+		mode = letUserChoose(allowedModes, myScanner);
 		
 		if (mode!=0) {	
 
-			//Whot to do when mode is inserted
+			//What to do when mode is inserted
 			int[] omitted = {};
 
-			Game newGame = new Game(4, omitted);
+			System.out.println("How many players will there be? (2-4)");
+			System.out.println();
+			int[] allowedNumbers = {2,3,4};
+			int numPlayers = letUserChoose(allowedNumbers, myScanner);
+
+			Game newGame = new Game(numPlayers, omitted);
 			while (!newGame.enoughPlayers()){
 				System.out.print("A new Player is created. What will his name be? ");
 				String name = myScanner.next();
-				newGame.addPlayer(name);
+				System.out.println("What will his stratgie be like? ");
+				System.out.println("0 = Coward");
+				System.out.println("1 = Sonja");
+				System.out.println("2 = Greedy");
+				System.out.println("3 = Dagobert");
+				System.out.println("4 = human");
+				System.out.println("");
+				int[] allowedStrategies = {0,1,2,3,4};
+				int stratgie = letUserChoose(allowedStrategies, myScanner);
+
+				newGame.addPlayer(name, stratgie);
 			}
 			
 			System.out.println("Game starts in mode "+mode);		
@@ -57,6 +49,46 @@ public class GameMenue {
 			System.exit(0);
 		}
 
+	}
+
+	private static int justAnInt(String string){
+		int filtered;
+		String temp2 = "";
+		for (int i = 0; i < string.length(); i++){
+			if ((int) string.charAt(i) >= 48 && (int) string.charAt(i) <= 57){
+				temp2 += string.charAt(i);	
+			}
+		}
+		if (temp2 == ""){
+			filtered = -1;
+		} else {
+			filtered = Integer.parseInt(temp2);
+		}
+		return filtered;
+	}
+
+	private static int letUserChoose(int[] allowed, Scanner myScanner){
+		System.out.print("choose: ");
+		boolean correct;
+		int chosen;
+		do {
+			String temp = myScanner.next();
+			chosen = justAnInt(temp);
+
+			correct = false;
+			for (int i : allowed) {
+				if (chosen == i){
+					correct = true;	
+				}
+			}
+			
+			if (!correct){
+				System.out.println("wrong input! try again...");
+				System.out.println();
+				System.out.print("chosse: ");
+			}
+		} while (!correct);
+		return chosen;
 	}
 
 }
