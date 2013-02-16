@@ -98,28 +98,50 @@ public class Game {
 				currentPlayer.take(cardInTheMiddle, coinsInTheMiddle);
 				numCardsOnStack -= 1;
 				coinsInTheMiddle = 0;
+				move--;
 				System.out.println();
 				updateCardInTheMiddle(numCardsOnStack);
 			}
-			move += 1;
+			move++;
 		}
 		System.out.println();
 		System.out.println("/////////////////////////   Game Over   /////////////////////////");
 		System.out.println();
-		System.out.println("Name\tPoints\tCards");
 
+		
+		//Ranking
+
+		//longest name
+		int nameLength = 0;
+		for (Player player : players) {
+			if (nameLength < player.getName().length()){
+				nameLength = player.getName().length();
+			}
+		}
+		System.out.println("nameLength = " + nameLength);
+
+		//Legend
+		System.out.print("Name");
+		for (int i = 1; i<= nameLength - 4 + 1; i++ ) {
+			System.out.print(" ");
+		}
+		System.out.println("\tPoints\tCoins\tCards");
+
+		//table
 		for (int i = 0; i < numPlayers; i++){
 			Player player = getPlayer(i);
 			String name = player.getName();
-			int points = player.getCollectedPoints();
+			while (name.length() < nameLength + 1){
+				name = (name + " ");
+			}
+			int coins = player.getCoins();
+			int points = player.getCollectedPoints() - coins;
 			String cards = Arrays.toString(takeAwayZeros(player.getCollectedCards()));
-			System.out.println(name + "\t" + points + "\t" + cards);
+			System.out.println(name + "\t" + points + "\t" + coins + "\t" + cards);
 		}
 
-	}
 
-	private void showCards(int[] cards){
-		System.out.println(Arrays.toString(takeAwayZeros(cards)));
+
 	}
 
 	private int[] takeAwayZeros(int[] array){
@@ -140,7 +162,6 @@ public class Game {
 			}
 		}
 		return newArray;
-
 	}
 
 }

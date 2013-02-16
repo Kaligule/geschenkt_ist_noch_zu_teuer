@@ -8,7 +8,7 @@ public class GameMenue {
 		int mode = 0;
 
 		Scanner myScanner = new Scanner(System.in);
-		System.out.println("Do you want to play?");
+		System.out.println("Do you want to play \"Geschenkt ist noch zu teuer\"?");
 		System.out.println("0 = exit");
 		System.out.println("1 = play");
 		System.out.println();
@@ -30,15 +30,22 @@ public class GameMenue {
 				System.out.print("A new Player is created. What will his name be? ");
 				String name = myScanner.next();
 				System.out.println("What will his stratgie be like? ");
-				System.out.println("0 = Coward");
-				System.out.println("1 = Sonja");
-				System.out.println("2 = Greedy");
-				System.out.println("3 = Dagobert");
-				System.out.println("4 = human");
+				System.out.println("0 = Human");
+				System.out.println("1 = Dagobert");
+				System.out.println("2 = Coward");
+				System.out.println("3 = Sonja");
+				System.out.println("4 = Greedy");
 				System.out.println("");
-				int[] allowedStrategies = {0,1,2,3,4};
+				System.out.println("(112 = tell me about the strategies)");
+				int[] allowedStrategies = {112,0,1,2,3,4};
 				int stratgie = letUserChoose(allowedStrategies, myScanner);
-
+				while (stratgie == 112){
+					System.out.println("\"Dagobert\" never pays");
+					System.out.println("\"Coward\" just pays always");
+					System.out.println("\"Sonja\" pays, until card/2 >= coinsInTheMiddle");
+					System.out.println("\"Greedy\" pays, if card > coinsInTheMiddle");
+					stratgie = letUserChoose(allowedStrategies, myScanner);
+				}
 				newGame.addPlayer(name, stratgie);
 			}
 			

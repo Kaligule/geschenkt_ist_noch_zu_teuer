@@ -11,12 +11,12 @@ public class Player {
 	private int[] collectedCards;
 	private Scanner myScanner;
 
-
+	//Consturctor
 	public Player(Game game, String name, int strategie, int coins) {
 		this.game = game;
 		this.name = name;
 		this.strategie = strategie;
-		if (strategie == 4){
+		if (strategie == 0){
 			//humans need scanner
 			myScanner = new Scanner(System.in);
 		}
@@ -28,11 +28,14 @@ public class Player {
 		return name;
 	}
 
-	public int[] getCollectedCards(){
-		return collectedCards;
+	public int getCoins() {
+		//This is allowed only for the ranking.
+		return coins;
 	}
 
-		public void pay(){
+	//For playing
+
+	public void pay(){
 		coins--;
 	}
 
@@ -41,14 +44,26 @@ public class Player {
 		coins += newCoins;
 	}
 
-	public int getCollectedPoints(){
-		int collectedPoints = 0;
-		for (int i = collectedCards.length - 1; i >= 1; i--){
-			if (collectedCards[i] != 0 &&  collectedCards[i-1] == 0) {
-				collectedPoints += collectedCards[i];
+	//For Userinterface
+
+	private int[] takeAwayZeros(int[] array){
+		int anzNichtNuller = 0;
+		for(int i : array){
+			if (i != 0){
+				anzNichtNuller++;
 			}
 		}
-		return collectedPoints;
+
+		int [] newArray = new int[anzNichtNuller];
+
+		int zufuellen = 0;
+		for(int i : array){
+			if (i != 0){
+				newArray[zufuellen] = i;
+				zufuellen++;
+			}
+		}
+		return newArray;
 	}
 
 	private static int justAnInt(String string){
@@ -91,43 +106,85 @@ public class Player {
 		return chosen;
 	}
 
-
+	//Here be intelligence
 	public boolean wouldYouPay(int cardInTheMiddle, int coinsInTheMiddle){
-		//Abkürzung
+		//Shortcut
 		int card = cardInTheMiddle;
 
-		if (coins == 0) {
-			return false;
-		} else if (strategie == 1) {
-			// "Sonja" pays, until card/2 >= coinsInTheMiddle
-			return (card >= coinsInTheMiddle*2);
-		} else if (strategie == 2) {
-			// "Greedy" pays, if card > coinsInTheMiddle
-			return (card > coinsInTheMiddle);
-		} else if (strategie == 3) {
-			// "Dagobert" never pays
-			return false;
-		} else if (strategie == 4) {
-			// "human" asks always for permission
-			System.out.println("There are " + coinsInTheMiddle+ " Coins in the middle now!");
-			System.out.println(name + ", do you want to take card and coins or pay 1 coin?");
-			System.out.println("0 = take card and coins");
-			System.out.println("1 = pay");
-			int[] allowedActions = {0,1};
-			int action = letUserChoose(allowedActions, myScanner);
-			return (action == 1);
-		} else if (false) {
-			// "???" pays, if ...
-			return true;
-		} else {
-			// "Coward" just pays always
-			return true;
+		while (true){
+			if (coins == 0) {
+				return false;
+			} else if (strategie == 0) {
+				// "human" always asks wether to pay or not
+				System.out.println("There are " + coinsInTheMiddle+ " coins and the card " + card + " in the middle now!");
+				System.out.println(name + ", do you want to take card and coins or pay 1 coin?");
+				System.out.println("0 = take card and coins");
+				System.out.println("1 = pay");
+				System.out.println("2 = 'Er, how many coins do I have?'");
+				System.out.println("3 = 'What cards did I take until now?'");
+
+				int[] allowedActions = {0,1,2,3};
+				int action = letUserChoose(allowedActions, myScanner);
+				if(action == 0){
+					return false;
+				} else if (action == 1) {
+					return true;
+				} else if (action == 2) {
+					showYourCoins();
+				} else if (action == 3) {
+					showYourCards();
+				}
+			} else if (strategie == 1) {
+				// "Dagobert" never pays
+				return false;
+			} else if (strategie == 2) {
+				// "Coward" just pays always
+				return true;
+			} else if (strategie == 3) {
+				// "Sonja" pays, until card/2 >= coinsInTheMiddle
+				return (card >= coinsInTheMiddle*2);
+			} else if (strategie == 4) {
+				// "Greedy" pays, if card > coinsInTheMiddle
+				return (card > coinsInTheMiddle);
+			} else if (false) {
+				// "???" pays, if ...
+				return false;
+			}
 		}
 	}
 
+	//Human programmers meight find these usefull
 
+	private void showYourCoins(){
+		System.out.print("These are your " + coins + " coins:");
+		for (int i = 1; i <= coins; i++ ) {
+			System.out.print(" o");
+		}
+		System.out.println();
+	}
 
-	private boolean iOwnTheCartd(int card){
+	private void showYourCards(){
+		System.out.print("The cards you have collected so far are:");
+		String myCards = Arrays.toString(takeAwayZeros(collectedCards));
+		System.out.println(myCards);
+		System.out.println("That sums up to " + getCollectedPoints() + " Points.");
+	}
+
+	public int getCollectedPoints(){
+		int collectedPoints = 0;
+		for (int i = collectedCards.length - 1; i >= 1; i--){
+			if (collectedCards[i] != 0 &&  collectedCards[i-1] == 0) {
+				collectedPoints += collectedCards[i];
+			}
+		}
+		return collectedPoints;
+	}
+
+	public int[] getCollectedCards(){
+		return collectedCards;
+	}
+
+	private boolean doYouOwnThatCard(int card){
 		return (collectedCards[card] != 0);
 	}
 }
