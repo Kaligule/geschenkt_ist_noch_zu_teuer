@@ -53,9 +53,9 @@ public class Game {
 	}
 
 	public int getNumberOfPlayers() {
+
 		return numPlayers;
 	}
-
 
 	public Player addPlayer(String name, int strategie) {
 		if (numPlayers < reqPlayers ){
@@ -68,19 +68,23 @@ public class Game {
 		}
 	}
 
-		public boolean enoughPlayers(){
+	public boolean enoughPlayers(){
+
 		return (numPlayers == reqPlayers);
 	}
 
 	public Player getPlayer(int position) {
+
 		return players[position % numPlayers];
 	}
 
 	public int getMinCardValue(){
+
 		return minCardValue;
 	}
 
 	public int getMaxCardValue(){
+
 		return maxCardValue;
 	}
 
@@ -105,11 +109,9 @@ public class Game {
 		while(numCardsOnStack != 0){
 			Player currentPlayer = getPlayer(move);
 			if (currentPlayer.wouldYouPay(cardInTheMiddle, coinsInTheMiddle)){
-
 				currentPlayer.pay();
 				coinsInTheMiddle++;
 				System.out.println(currentPlayer.getName() + " pays 1 coin!");
-
 			} else {
 				System.out.println(currentPlayer.getName() + " takes the Card and the " + coinsInTheMiddle + " Coins from the middle.");
 				currentPlayer.take(cardInTheMiddle, coinsInTheMiddle);
@@ -128,9 +130,11 @@ public class Game {
 		
 		//Ranking
 
+		Player[] ranking = sortByPoints(players);
+
 		//longest name
 		int nameLength = 0;
-		for (Player player : players) {
+		for (Player player : ranking) {
 			if (nameLength < player.getName().length()){
 				nameLength = player.getName().length();
 			}
@@ -145,8 +149,8 @@ public class Game {
 		System.out.println("\tPoints\tCoins\tCards");
 
 		//table
-		for (int i = 0; i < numPlayers; i++){
-			Player player = getPlayer(i);
+		for (int i = 0; i < ranking.length; i++){
+			Player player = ranking[i];
 			String name = player.getName();
 			while (name.length() < nameLength + 1){
 				name = (name + " ");
@@ -156,9 +160,6 @@ public class Game {
 			String cards = Arrays.toString(takeAwayZeros(player.getCollectedCards()));
 			System.out.println(name + "\t" + points + "\t" + coins + "\t" + cards);
 		}
-
-
-
 	}
 
 	private int[] takeAwayZeros(int[] array){
@@ -181,4 +182,21 @@ public class Game {
 		return newArray;
 	}
 
+	public  Player[] sortByPoints(Player[] liste){
+		int anzahl = liste.length;
+
+		boolean sortet = false;
+		Player tmp;
+		while (sortet == false) {
+			sortet = true;
+			for (int i = 0; i < anzahl - 1 ; i++) {
+				if (liste[i].getCollectedPoints() < liste[i+1].getCollectedPoints()){
+					System.out.println(i);
+					sortet = false;
+					tmp = liste[i]; liste[i] = liste[i+1]; liste[i+1] = tmp;
+				}
+			}
+		}
+		return liste;
+	}
 }
