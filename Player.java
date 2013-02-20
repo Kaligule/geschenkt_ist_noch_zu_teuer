@@ -25,6 +25,7 @@ public class Player {
 	}
 
 	public String getName() {
+
 		return name;
 	}
 
@@ -36,6 +37,7 @@ public class Player {
 	//For playing
 
 	public void pay(){
+
 		coins--;
 	}
 
@@ -181,10 +183,12 @@ public class Player {
 	}
 
 	public int[] getCollectedCards(){
+
 		return collectedCards;
 	}
 
 	private boolean doYouOwnThatCard(int card){
+		
 		return (collectedCards[card] != 0);
 	}
 }

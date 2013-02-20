@@ -124,6 +124,10 @@ public class Game {
 			move++;
 		}
 		System.out.println();
+		gameOver();
+	}
+
+	private void gameOver(){
 		System.out.println("/////////////////////////   Game Over   /////////////////////////");
 		System.out.println();
 
@@ -139,10 +143,9 @@ public class Game {
 				nameLength = player.getName().length();
 			}
 		}
-		System.out.println("nameLength = " + nameLength);
 
 		//Legend
-		System.out.print("Name");
+		System.out.print("Rank\tName");
 		for (int i = 1; i<= nameLength - 4 + 1; i++ ) {
 			System.out.print(" ");
 		}
@@ -158,7 +161,7 @@ public class Game {
 			int coins = player.getCoins();
 			int points = player.getCollectedPoints() - coins;
 			String cards = Arrays.toString(takeAwayZeros(player.getCollectedCards()));
-			System.out.println(name + "\t" + points + "\t" + coins + "\t" + cards);
+			System.out.println((i+3) + ".\t" + name + "\t" + points + "\t" + coins + "\t" + cards);
 		}
 	}
 
@@ -190,7 +193,7 @@ public class Game {
 		while (sortet == false) {
 			sortet = true;
 			for (int i = 0; i < anzahl - 1 ; i++) {
-				if (liste[i].getCollectedPoints() < liste[i+1].getCollectedPoints()){
+				if (liste[i].getCollectedPoints() > liste[i+1].getCollectedPoints()){
 					System.out.println(i);
 					sortet = false;
 					tmp = liste[i]; liste[i] = liste[i+1]; liste[i+1] = tmp;
