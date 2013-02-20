@@ -11,11 +11,15 @@ public class GameMenue {
 		System.out.println("Do you want to play \"Geschenkt ist noch zu teuer\"?");
 		System.out.println("0 = exit");
 		System.out.println("1 = play");
+		System.out.println("2 = standart Game for debugging");
 		System.out.println();
-		int[] allowedModes = {0,1};
+		int[] allowedModes = {0,1,2};
 		mode = letUserChoose(allowedModes, myScanner);
-		
-		if (mode!=0) {	
+
+		if (mode == 0) {
+			System.out.println("game is closing!");
+			System.exit(0);
+		} else if (mode == 1) {	
 
 			//What to do when mode is inserted
 			System.out.println("How many players will there be? (2-4)");
@@ -34,16 +38,18 @@ public class GameMenue {
 				System.out.println("1 = Dagobert");
 				System.out.println("2 = Coward");
 				System.out.println("3 = Sonja");
-				System.out.println("4 = Greedy");
+				System.out.println("4 = Buisnesman");
+				System.out.println("5 = Greedy");
 				System.out.println("(112 = tell me about the strategies)");
-				int[] allowedStrategies = {112,0,1,2,3,4};
+				int[] allowedStrategies = {112,0,1,2,3,4,5};
 				int stratgie = letUserChoose(allowedStrategies, myScanner);
 				while (stratgie == 112){
 					System.out.println("\"Human\" is you playing yourself");
 					System.out.println("\"Dagobert\" never pays");
 					System.out.println("\"Coward\" just pays always");
 					System.out.println("\"Sonja\" pays, until card/2 <= coinsInTheMiddle");
-					System.out.println("\"Greedy\" pays, if card > coinsInTheMiddle");
+					System.out.println("\"Buisnesman\" pays, if card > coinsInTheMiddle");
+					System.out.println("\"Greedy\" takes the card, if that decreases his collected points");
 					stratgie = letUserChoose(allowedStrategies, myScanner);
 				}
 				newGame.addPlayer(name, stratgie);
@@ -53,9 +59,16 @@ public class GameMenue {
 			
 			System.out.println("Game starts in mode " + mode);		
 			newGame.run();
-		} else {
-			System.out.println("game is closing!");
-			System.exit(0);
+		} else if (mode == 2) {
+			int numPlayers = 4; int omit = 9;
+			Game newGame = new Game(numPlayers, omit);
+			newGame.addPlayer("Jøhannes", 5);
+			newGame.addPlayer("Sandra", 4);
+			newGame.addPlayer("Sonja", 3);
+			newGame.addPlayer("Stefan", 2);
+			System.out.println("Game starts in mode " + mode);		
+			newGame.run();
+
 		}
 
 	}

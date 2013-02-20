@@ -161,7 +161,7 @@ public class Game {
 			int coins = player.getCoins();
 			int points = player.getCollectedPoints() - coins;
 			String cards = Arrays.toString(takeAwayZeros(player.getCollectedCards()));
-			System.out.println((i+3) + ".\t" + name + "\t" + points + "\t" + coins + "\t" + cards);
+			System.out.println((i+1) + ".\t" + name + "\t" + points + "\t" + coins + "\t" + cards);
 		}
 	}
 
@@ -194,7 +194,6 @@ public class Game {
 			sortet = true;
 			for (int i = 0; i < anzahl - 1 ; i++) {
 				if (liste[i].getCollectedPoints() > liste[i+1].getCollectedPoints()){
-					System.out.println(i);
 					sortet = false;
 					tmp = liste[i]; liste[i] = liste[i+1]; liste[i+1] = tmp;
 				}

@@ -146,8 +146,17 @@ public class Player {
 				// "Sonja" pays, until card/2 >= coinsInTheMiddle
 				return (card >= coinsInTheMiddle*2);
 			} else if (strategie == 4) {
-				// "Greedy" pays, if card > coinsInTheMiddle
+				// "Buisnesman" pays, if card > coinsInTheMiddle
 				return (card > coinsInTheMiddle);
+			} else if (strategie == 5) {
+				// "Greedy" takes the card, if that decreases his collected points
+				if (card < coinsInTheMiddle) {
+					return false;
+				} else if (this.doYouOwnThatCard(card + 1)) {
+					return false;
+				} else {
+					return true;
+				}
 			} else if (false) {
 				// "???" pays, if ...
 				return false;
@@ -188,7 +197,10 @@ public class Player {
 	}
 
 	private boolean doYouOwnThatCard(int card){
-		
-		return (collectedCards[card] != 0);
+		if (card >= collectedCards.length){
+			return false;
+		} else {
+			return (collectedCards[card] != 0);
+		}
 	}
 }
