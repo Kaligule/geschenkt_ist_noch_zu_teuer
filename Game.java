@@ -7,16 +7,16 @@ public class Game {
 	private int startCoins = 11;
 	private int minCardValue = 3;
 	private int maxCardValue = 35;
-	private int[] omitted;
+	private int omit;
 	private Player[] players;
 	private int[] cardsOnStack;
 	private int cardInTheMiddle;
 	private int coinsInTheMiddle;
 
-	public Game(int reqPlayers, int[] omitted) {
+	public Game(int reqPlayers, int omit) {
 		this.reqPlayers = reqPlayers;
 		this.players = new Player[reqPlayers];
-		this.omitted = omitted;
+		this.omit = omit;
 		cardsOnStack = prepareCardsOnStack();
 	}
 
@@ -25,13 +25,31 @@ public class Game {
 		for (int i = minCardValue; i <= maxCardValue; i++){
 			hilfsliste[i] = i;
 		}
-		for (int i : omitted) {
-			hilfsliste[i] = 0;
-		}
 		int[] cardsOnStack = takeAwayZeros(hilfsliste);
-		//Doesn't work TODO
-		//Collections.shuffel(Arrays.asList(cardsOnStack));
+		cardsOnStack = shuffelCards(cardsOnStack);
+		cardsOnStack = omitLastCards(cardsOnStack, omit);
 		return cardsOnStack;
+	}
+
+	private int[] shuffelCards(int[] cards) { 
+		int tmp; 
+		int rand; 
+		Random generator = new Random(); 
+		for (int i = 0; i < cards.length; i++) { 
+			rand = generator.nextInt(cards.length); 
+			tmp = cards[i]; 
+			cards[i] = cards[rand]; 
+			cards[rand] = tmp; 
+		} 
+		return cards; 
+	}
+
+	private int[] omitLastCards(int[] oldStack, int number){
+		int[] newStack = new int[oldStack.length - number];
+		for (int i = 0; i < newStack.length ; i++) {
+			newStack[i] = oldStack[i] ;
+		}
+		return newStack;
 	}
 
 	public int getNumberOfPlayers() {
@@ -41,14 +59,17 @@ public class Game {
 
 	public Player addPlayer(String name, int strategie) {
 		if (numPlayers < reqPlayers ){
-				Player newPlayer = new Player (this, name, strategie, startCoins);
-				players [numPlayers] = newPlayer; 
-				numPlayers += 1;
-				System.out.println("We have created " + name + ".");
-				return newPlayer;
+			Player newPlayer = new Player (this, name, strategie, startCoins);
+			players [numPlayers] = newPlayer; 
+			numPlayers += 1;
+			return newPlayer;
 		} else {
 			return null;
 		}
+	}
+
+		public boolean enoughPlayers(){
+		return (numPlayers == reqPlayers);
 	}
 
 	public Player getPlayer(int position) {
@@ -61,10 +82,6 @@ public class Game {
 
 	public int getMaxCardValue(){
 		return maxCardValue;
-	}
-
-	public boolean enoughPlayers(){
-		return (numPlayers == reqPlayers);
 	}
 
 	private void updateCardInTheMiddle(int numCardsOnStack){
