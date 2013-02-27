@@ -157,6 +157,22 @@ public class Player {
 				} else {
 					return true;
 				}
+			} else if (strategie == 6) {
+				// "Stefan" pays sometimes...
+				boolean bedingung1 = (card/2 >= coinsInTheMiddle + 1);
+				boolean bedingung2 = (card/2 >= coinsInTheMiddle);
+				if (game.getNumCardsOnStack() < 15){
+					return true;
+				}
+				else{
+					if (cardInTheMiddle > 15){
+					return ( bedingung1);
+					}
+					else {
+						return(bedingung2);
+					}
+				}
+
 			} else if (false) {
 				// "???" pays, if ...
 				return false;

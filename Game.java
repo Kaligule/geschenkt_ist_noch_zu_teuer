@@ -12,12 +12,15 @@ public class Game {
 	private int[] cardsOnStack;
 	private int cardInTheMiddle;
 	private int coinsInTheMiddle;
+	private int numCardsOnStack;
 
 	public Game(int reqPlayers, int omit) {
 		this.reqPlayers = reqPlayers;
 		this.players = new Player[reqPlayers];
 		this.omit = omit;
 		cardsOnStack = prepareCardsOnStack();
+		numCardsOnStack = cardsOnStack.length;
+
 	}
 
 	private int[] prepareCardsOnStack(){
@@ -73,6 +76,10 @@ public class Game {
 		return (numPlayers == reqPlayers);
 	}
 
+	public int getNumCardsOnStack(){
+		return numCardsOnStack;
+	}
+
 	public Player getPlayer(int position) {
 
 		return players[position % numPlayers];
@@ -101,7 +108,6 @@ public class Game {
 
 	public void run(){
 		System.out.println("The Game beginns…");
-		int numCardsOnStack = cardsOnStack.length;
 		updateCardInTheMiddle(numCardsOnStack);
 		int move = 0;
 		coinsInTheMiddle = 0;

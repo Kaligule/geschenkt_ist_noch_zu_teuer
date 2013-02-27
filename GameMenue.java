@@ -40,8 +40,9 @@ public class GameMenue {
 				System.out.println("3 = Sonja");
 				System.out.println("4 = Buisnesman");
 				System.out.println("5 = Greedy");
+				System.out.println("6 = Stefan");
 				System.out.println("(112 = tell me about the strategies)");
-				int[] allowedStrategies = {112,0,1,2,3,4,5};
+				int[] allowedStrategies = {112,0,1,2,3,4,5,6};
 				int stratgie = letUserChoose(allowedStrategies, myScanner);
 				while (stratgie == 112){
 					System.out.println("\"Human\" is you playing yourself");
@@ -50,6 +51,7 @@ public class GameMenue {
 					System.out.println("\"Sonja\" pays, until card/2 <= coinsInTheMiddle");
 					System.out.println("\"Buisnesman\" pays, if card > coinsInTheMiddle");
 					System.out.println("\"Greedy\" takes the card, if that decreases his collected points");
+					System.out.println("\"Stefan\" is a mystery to everyone");
 					stratgie = letUserChoose(allowedStrategies, myScanner);
 				}
 				newGame.addPlayer(name, stratgie);
@@ -65,7 +67,7 @@ public class GameMenue {
 			newGame.addPlayer("Jøhannes", 5);
 			newGame.addPlayer("Sandra", 4);
 			newGame.addPlayer("Sonja", 3);
-			newGame.addPlayer("Stefan", 2);
+			newGame.addPlayer("Stefan", 6);
 			System.out.println("Game starts in mode " + mode);		
 			newGame.run();
 
