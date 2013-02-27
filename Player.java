@@ -194,7 +194,7 @@ public class Player {
 		System.out.print("The cards you have collected so far are:");
 		String myCards = Arrays.toString(takeAwayZeros(collectedCards));
 		System.out.println(myCards);
-		System.out.println("That sums up to " + getCollectedPoints() + " Points.");
+		System.out.println("That sums up to " + getCollectedPoints() + " points.");
 	}
 
 	public int getCollectedPoints(){

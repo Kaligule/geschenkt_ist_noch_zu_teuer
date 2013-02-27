@@ -49,7 +49,7 @@ public class GameMenue {
 					System.out.println("\"Dagobert\" never pays");
 					System.out.println("\"Coward\" just pays always");
 					System.out.println("\"Sonja\" pays, until card/2 <= coinsInTheMiddle");
-					System.out.println("\"Buisnesman\" pays, if card > coinsInTheMiddle");
+					System.out.println("\"Businessman\" pays, if card > coinsInTheMiddle");
 					System.out.println("\"Greedy\" takes the card, if that decreases his collected points");
 					System.out.println("\"Stefan\" is a mystery to everyone");
 					stratgie = letUserChoose(allowedStrategies, myScanner);

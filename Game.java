@@ -101,13 +101,13 @@ public class Game {
 		} else {
 			cardInTheMiddle = cardsOnStack[numCardsOnStack - 1];
 			System.out.println("The card in the middle is the " + cardInTheMiddle);
-			System.out.println("There are " + (numCardsOnStack -1)+ " other cards on the Stack.");
+			System.out.println("There are " + (numCardsOnStack -1)+ " other cards on the stack.");
 
 		}
 	}
 
 	public void run(){
-		System.out.println("The Game beginns…");
+		System.out.println("The game beginns…");
 		updateCardInTheMiddle(numCardsOnStack);
 		int move = 0;
 		coinsInTheMiddle = 0;
@@ -119,7 +119,7 @@ public class Game {
 				coinsInTheMiddle++;
 				System.out.println(currentPlayer.getName() + " pays 1 coin!");
 			} else {
-				System.out.println(currentPlayer.getName() + " takes the Card and the " + coinsInTheMiddle + " Coins from the middle.");
+				System.out.println(currentPlayer.getName() + " takes the card and the " + coinsInTheMiddle + " coins from the middle.");
 				currentPlayer.take(cardInTheMiddle, coinsInTheMiddle);
 				numCardsOnStack -= 1;
 				coinsInTheMiddle = 0;
@@ -191,6 +191,8 @@ public class Game {
 		return newArray;
 	}
 
+
+	//TODO
 	public  Player[] sortByPoints(Player[] liste){
 		int anzahl = liste.length;
 
@@ -199,7 +201,7 @@ public class Game {
 		while (sortet == false) {
 			sortet = true;
 			for (int i = 0; i < anzahl - 1 ; i++) {
-				if (liste[i].getCollectedPoints() > liste[i+1].getCollectedPoints()){
+				if ((liste[i].getCollectedPoints() - liste[i].getCoins()) > (liste[i+1].getCollectedPoints() - liste[i].getCoins())){
 					sortet = false;
 					tmp = liste[i]; liste[i] = liste[i+1]; liste[i+1] = tmp;
 				}
