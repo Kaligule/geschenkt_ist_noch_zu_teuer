@@ -199,8 +199,6 @@ public class Game {
 		while (sortet == false) {
 			sortet = true;
 			for (int i = 0; i < anzahl - 1 ; i++) {
-				liste[i] = liste[i];
-				liste[i+1] = liste[i+1];
 				if ((liste[i].getCollectedPoints() - liste[i].getCoins()) > (liste[i+1].getCollectedPoints() - liste[i+1].getCoins())){
 					sortet = false;
 					tmp = liste[i]; liste[i] = liste[i+1]; liste[i+1] = tmp;
