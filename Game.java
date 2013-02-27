@@ -13,6 +13,7 @@ public class Game {
 	private int cardInTheMiddle;
 	private int coinsInTheMiddle;
 	private int numCardsOnStack;
+	private int move;
 
 	public Game(int reqPlayers, int omit) {
 		this.reqPlayers = reqPlayers;
@@ -55,8 +56,7 @@ public class Game {
 		return newStack;
 	}
 
-	public int getNumberOfPlayers() {
-
+	public int getNumPlayers(){
 		return numPlayers;
 	}
 
@@ -90,6 +90,10 @@ public class Game {
 		return minCardValue;
 	}
 
+	public int getMove(){
+		return move;
+	}
+
 	public int getMaxCardValue(){
 
 		return maxCardValue;
@@ -109,7 +113,7 @@ public class Game {
 	public void run(){
 		System.out.println("The game beginns…");
 		updateCardInTheMiddle(numCardsOnStack);
-		int move = 0;
+		move = 0;
 		coinsInTheMiddle = 0;
 
 		while(numCardsOnStack != 0){
@@ -141,25 +145,30 @@ public class Game {
 		//Ranking
 
 		Player[] ranking = sortByPoints(players);
+		table (ranking, "Rank");
+	}
 
+	public void table (Player[] listOfPlayers, String sortetBy){
+		int tabLength = 8;
 		//longest name
 		int nameLength = 0;
-		for (Player player : ranking) {
+		for (Player player : listOfPlayers) {
 			if (nameLength < player.getName().length()){
 				nameLength = player.getName().length();
 			}
 		}
 
 		//Legend
-		System.out.print("Rank\tName");
+		System.out.print(sortetBy + "  ");
+		System.out.print("Name");
 		for (int i = 1; i<= nameLength - 4 + 1; i++ ) {
 			System.out.print(" ");
 		}
 		System.out.println("\tPoints\tCoins\tCards");
 
 		//table
-		for (int i = 0; i < ranking.length; i++){
-			Player player = ranking[i];
+		for (int i = 0; i < listOfPlayers.length; i++){
+			Player player = listOfPlayers[i];
 			String name = player.getName();
 			while (name.length() < nameLength + 1){
 				name = (name + " ");
@@ -167,7 +176,16 @@ public class Game {
 			int coins = player.getCoins();
 			int points = player.getCollectedPoints() - coins;
 			String cards = Arrays.toString(takeAwayZeros(player.getCollectedCards()));
-			System.out.println((i+1) + ".\t" + name + "\t" + points + "\t" + coins + "\t" + cards);
+			if (sortetBy.length() < tabLength){
+				System.out.print((i+1) + ".");
+			} else {
+				System.out.print((i+1) + ".");
+				for (int j = 0; j < sortetBy.length() - 2; j++){
+					System.out.print(" ");
+				}
+				System.out.print("  ");
+			}
+			System.out.println(name + "\t" + points + "\t" + coins + "\t" + cards);
 		}
 	}
 

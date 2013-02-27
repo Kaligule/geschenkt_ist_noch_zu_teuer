@@ -38,7 +38,7 @@ public class GameMenue {
 				System.out.println("1 = Dagobert");
 				System.out.println("2 = Coward");
 				System.out.println("3 = Sonja");
-				System.out.println("4 = Buisnesman");
+				System.out.println("4 = Businessman");
 				System.out.println("5 = Greedy");
 				System.out.println("6 = Stefan");
 				System.out.println("(112 = tell me about the strategies)");
@@ -51,7 +51,7 @@ public class GameMenue {
 					System.out.println("\"Sonja\" pays, until card/2 <= coinsInTheMiddle");
 					System.out.println("\"Businessman\" pays, if card > coinsInTheMiddle");
 					System.out.println("\"Greedy\" takes the card, if that decreases his collected points");
-					System.out.println("\"Stefan\" is a mystery to everyone");
+					System.out.println("\"Stefn\" is a mystery to everyone");
 					stratgie = letUserChoose(allowedStrategies, myScanner);
 				}
 				newGame.addPlayer(name, stratgie);

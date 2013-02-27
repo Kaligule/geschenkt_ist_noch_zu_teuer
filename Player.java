@@ -116,6 +116,7 @@ public class Player {
 		while (true){
 			if (coins == 0) {
 				return false;
+
 			} else if (strategie == 0) {
 				// "human" always asks wether to pay or not
 				System.out.println("There are " + coinsInTheMiddle+ " coins and the card " + card + " in the middle now!");
@@ -124,8 +125,9 @@ public class Player {
 				System.out.println("1 = pay");
 				System.out.println("2 = 'Er, how many coins do I have?'");
 				System.out.println("3 = 'What cards did I take until now?'");
+				System.out.println("4 = 'What do my opponents have?'");
 
-				int[] allowedActions = {0,1,2,3};
+				int[] allowedActions = {0,1,2,3,4};
 				int action = letUserChoose(allowedActions, myScanner);
 				if(action == 0){
 					return false;
@@ -135,21 +137,31 @@ public class Player {
 					showYourCoins();
 				} else if (action == 3) {
 					showYourCards();
-				}
+				} else if (action == 4) {
+
+					Player[] playersByPosition = new Player[game.getNumPlayers()];
+					for (int position = 0; position < playersByPosition.length; position++){
+						playersByPosition[position] = game.getPlayer(game.getMove() + position);
+					}
+					game.table(playersByPosition, "Position");
+				} 
+			// "Dagobert" never pays
 			} else if (strategie == 1) {
-				// "Dagobert" never pays
 				return false;
+
+			// "Coward" just pays always
 			} else if (strategie == 2) {
-				// "Coward" just pays always
 				return true;
+			// "Sonja" pays, until card/2 >= coinsInTheMiddle
 			} else if (strategie == 3) {
-				// "Sonja" pays, until card/2 >= coinsInTheMiddle
 				return (card >= coinsInTheMiddle*2);
+
+			// "Businessman" pays, if card > coinsInTheMiddle
 			} else if (strategie == 4) {
-				// "Buisnesman" pays, if card > coinsInTheMiddle
 				return (card > coinsInTheMiddle);
+
+			// "Greedy" takes the card, if that decreases his collected points
 			} else if (strategie == 5) {
-				// "Greedy" takes the card, if that decreases his collected points
 				if (card < coinsInTheMiddle) {
 					return false;
 				} else if (this.doYouOwnThatCard(card + 1)) {
@@ -157,20 +169,17 @@ public class Player {
 				} else {
 					return true;
 				}
+
+			// "Stefan" pays sometimes...
 			} else if (strategie == 6) {
-				// "Stefan" pays sometimes...
 				boolean bedingung1 = (card/2 >= coinsInTheMiddle + 1);
 				boolean bedingung2 = (card/2 >= coinsInTheMiddle);
 				if (game.getNumCardsOnStack() < 15){
 					return true;
-				}
-				else{
-					if (cardInTheMiddle > 15){
+				} else if (cardInTheMiddle > 15) {
 					return ( bedingung1);
-					}
-					else {
-						return(bedingung2);
-					}
+				} else {
+					return(bedingung2);
 				}
 
 			} else if (false) {
