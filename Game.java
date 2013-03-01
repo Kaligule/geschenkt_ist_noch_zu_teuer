@@ -110,6 +110,7 @@ public class Game {
 		}
 	}
 
+	//return ranking here
 	public void run(){
 		System.out.println("The game beginns…");
 		updateCardInTheMiddle(numCardsOnStack);

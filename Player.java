@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.util.Scanner;
 
@@ -154,7 +155,22 @@ public class Player {
 				return true;
 			// "Sonja" pays, until card/2 >= coinsInTheMiddle
 			} else if (strategie == 3) {
-				return (card >= coinsInTheMiddle*2);
+				if(doYouNeedThatCard(card)){
+					boolean othersNeedCard = false;
+					for (int i = 1; i < game.getNumPlayers(); i++){
+						Player afterMe = game.getPlayer(game.getMove() + 1);
+						if (afterMe.doYouNeedThatCard(card)){
+							othersNeedCard = true;
+						}
+					}
+					if (othersNeedCard){
+						return true;
+					} else {
+						return (card >= coinsInTheMiddle*3);
+					}
+				} else {
+					return (card >= coinsInTheMiddle*2);
+				}
 
 			// "Businessman" pays, if card > coinsInTheMiddle
 			} else if (strategie == 4) {
@@ -172,14 +188,21 @@ public class Player {
 
 			// "Stefan" pays sometimes...
 			} else if (strategie == 6) {
-				boolean bedingung1 = (card/2 >= coinsInTheMiddle + 1);
-				boolean bedingung2 = (card/2 >= coinsInTheMiddle);
-				if (game.getNumCardsOnStack() < 15){
-					return true;
-				} else if (cardInTheMiddle > 15) {
-					return ( bedingung1);
+				if(doYouOwnThatCard(card+1) || doYouOwnThatCard(card-1)){
+					return(card/2 - 4 > coinsInTheMiddle);
 				} else {
-					return(bedingung2);
+					if(game.getNumCardsOnStack() >= 10){
+						if(card >= 26){
+							return(card/2 - game.getNumPlayers() > coinsInTheMiddle);
+						}
+						else if(16 <= card && card < 26){
+							return(card/2 +2 - game.getNumPlayers() > coinsInTheMiddle);
+						} else {
+							return(card/2 > coinsInTheMiddle);
+						}
+					} else {
+						return(card > coinsInTheMiddle);
+					}
 				}
 
 			} else if (false) {
@@ -216,12 +239,16 @@ public class Player {
 		return collectedPoints;
 	}
 
+	private boolean doYouNeedThatCard(int card){
+		return (doYouOwnThatCard(card+1) || doYouOwnThatCard(card-1));
+	}
+
 	public int[] getCollectedCards(){
 
 		return collectedCards;
 	}
 
-	private boolean doYouOwnThatCard(int card){
+	public boolean doYouOwnThatCard(int card){
 		if (card >= collectedCards.length){
 			return false;
 		} else {

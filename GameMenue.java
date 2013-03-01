@@ -4,18 +4,21 @@ import java.lang.String;
 
 public class GameMenue {
 
-	public static void main(String[] args) {
+	private static void startGameMenue(int presetMode){
 		int mode = 0;
-
 		Scanner myScanner = new Scanner(System.in);
-		System.out.println("Do you want to play \"Geschenkt ist noch zu teuer\"?");
-		System.out.println("0 = exit");
-		System.out.println("1 = play");
-		System.out.println("2 = standart Game for debugging");
-		System.out.println();
-		int[] allowedModes = {0,1,2};
-		mode = letUserChoose(allowedModes, myScanner);
-
+		if (presetMode == 0){
+			System.out.println("Do you want to play \"Geschenkt ist noch zu teuer\"?");
+			System.out.println("0 = exit");
+			System.out.println("1 = play");
+			System.out.println("2 = standart Game for debugging");
+			System.out.println();
+			int[] allowedModes = {0,1,2};
+			mode = letUserChoose(allowedModes, myScanner);
+		} else {
+			mode = presetMode;
+		}
+		
 		if (mode == 0) {
 			System.out.println("game is closing!");
 			System.exit(0);
@@ -114,5 +117,10 @@ public class GameMenue {
 		} while (!correct);
 		return chosen;
 	}
+
+	public static void main(String[] args) {
+		int presetMode = 2;
+		startGameMenue(presetMode);
+	}	
 
 }
