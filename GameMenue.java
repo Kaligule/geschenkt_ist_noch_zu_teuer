@@ -6,7 +6,7 @@ public class GameMenue {
 
 	// The presetMode becomes the mode of the Game.
 	// If presetMode is 0, the user can choose.
-	private static int presetMode = 3;
+	private static int presetMode = 0;
 
 
 	private static void startGameMenue(int presetMode){
@@ -34,8 +34,6 @@ public class GameMenue {
 		int numPlayers = 4;
 		int gamesPlayed = 0;
 		int gamesToPlay = 1;
-		double[] values = new double[20];
-		double[] ranks = new double[values.length];
 
 		// Get a first Game and its Players but don't run the Game yet
 		if (mode == 1) {
@@ -57,7 +55,7 @@ public class GameMenue {
 				System.out.println("5 = Greedy");
 				System.out.println("6 = Stefan");
 				System.out.println("(112 = tell me about the strategies)");
-				int[] allowedStrategies = {112,0,1,2,3,4,5,6,42};
+				int[] allowedStrategies = {112,0,1,2,3,4,5,6};
 				int stratgie = letUserChoose(allowedStrategies, myScanner);
 				while (stratgie == 112){
 					System.out.println("\"Human\" is you playing yourself");
@@ -78,11 +76,8 @@ public class GameMenue {
 
 			//how many Games
 			System.out.println();
-			System.out.println("How many standart games do you want to be played? (1-1000)");
-			gamesToPlay = letUserChoose(1, 1000, myScanner);
-		} else if (mode == 4){
-			firstGame = standartGame(numPlayers, omit);
-			gamesToPlay = 1000;
+			System.out.println("How many standart games do you want to be played? (1-100)");
+			gamesToPlay = letUserChoose(1, 100, myScanner);
 		} else {
 			// mode == 0 is easy
 			System.out.println("The Game is closing!");
@@ -92,7 +87,6 @@ public class GameMenue {
 
 		Game game = firstGame;
 
-		if (mode != 4){
 		do {
 			System.out.println("Game starts in mode " + mode + ".");
 			System.out.println();
@@ -105,9 +99,9 @@ public class GameMenue {
 				System.out.println();
 				System.out.println("0 = Thats enough!");
 				System.out.println("1 = Play again.");
-				System.out.println("x = Play x further games. (1-1000)");
+				System.out.println("x = Play x further games. (1-100)");
 				System.out.println();
-				gamesToPlay += letUserChoose(0, 1000, myScanner);
+				gamesToPlay += letUserChoose(0, 100, myScanner);
 			}
 
 			game = new Game(numPlayers, omit);
@@ -123,35 +117,7 @@ public class GameMenue {
 		System.out.println("This is your final ranking table:");
 		System.out.println();
 		medalTable(players);
-		
-		// mode == 4, lets get the best values
-		} else {
 
-
-			players = firstGame.getPlayers();
-			for (int i = 0; i < values.length; i++) {
-				values[i] = 2.5 + 0.05*i;
-				gamesPlayed = 0;
-				gamesToPlay = 1000;
-				players[0].setValue(values[i]);
-				do {
-					System.out.println();
-					players = game.run();
-					gamesPlayed++;
-					game = new Game(numPlayers, omit);
-					for (Player player : players ) {
-						game.addPlayer(player);
-					}
-				} while (gamesPlayed < gamesToPlay);
-				ranks[i] = players[0].getAverageRank();
-			}
-			for (int i = 0; i < values.length; i++) {
-				System.out.println("Value: " + makeStringThislong(String.valueOf(values[i]), 3) + " Rank: " + makeStringThislong(String.valueOf(ranks[i]),5));
-			}
-
-
-
-		}
 	}
 
 
@@ -209,7 +175,7 @@ public class GameMenue {
 
 	private static Game standartGame(int numPlayers, int omit){
 		Game game = new Game(numPlayers, omit);
-		game.addPlayer(new Player(game, "Jøhannes", 42));
+		game.addPlayer(new Player(game, "Jøhannes", 5));
 		game.addPlayer(new Player(game, "Sandra", 4));
 		game.addPlayer(new Player(game, "Sonja", 3));
 		game.addPlayer(new Player(game, "Stefan", 6));
