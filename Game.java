@@ -186,7 +186,7 @@ public class Game {
 			int coins = player.getCoins();
 			int points = player.getCollectedPoints() - coins;
 			String cards = Arrays.toString(takeAwayZeros(player.getCollectedCards()));
-			if (sortetBy.length() < tabLength){
+			if (false && sortetBy.length() + 1 < tabLength){
 				System.out.print((i+1) + ".");
 			} else {
 				System.out.print((i+1) + ".");

@@ -11,12 +11,13 @@ public class Player {
 	private int coins;
 	private int[] collectedCards;
 	private Scanner myScanner;
+	private static int possibleRanks = 4;
 	private int[] rankCollector;
 
 	//Consturctor and similar things
 	public Player(Game game, String name, int strategie) {
 		this.game = game;
-		this.rankCollector = new int[4];
+		this.rankCollector = new int[possibleRanks];
 		this.name = name;
 		this.strategie = strategie;
 		if (strategie == 0){
@@ -28,6 +29,7 @@ public class Player {
 	}
 
 	public void resetPlayerForNewGame(Game game){
+		//ranking is not touched
 		this.game = game;
 		this.coins = game.getStartCoins();
 		this.collectedCards = new int[game.getMaxCardValue() + 1];
@@ -125,6 +127,25 @@ public class Player {
 		String myCards = Arrays.toString(takeAwayZeros(collectedCards));
 		System.out.println(myCards);
 		System.out.println("That sums up to " + getCollectedPoints() + " points.");
+	}
+
+	public int[] getRankCollector(){
+		return rankCollector;
+	}
+
+	public static int getPossibleRanks(){
+		return possibleRanks;
+	}
+
+	public double getAverageRank(){
+		double sumRanks = 0;
+		double gamesPlayed = 0;
+
+		for (int i = 0; i < rankCollector.length; i++) {
+			sumRanks += (i+1)*(rankCollector[i]);
+			gamesPlayed += rankCollector[i];
+		}
+		return (sumRanks/gamesPlayed);
 	}
 
 	//Here be intelligence
