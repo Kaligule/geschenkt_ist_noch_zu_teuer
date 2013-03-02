@@ -8,7 +8,7 @@ public class GameMenue {
 		int mode = 0;
 		Scanner myScanner = new Scanner(System.in);
 		if (presetMode == 0){
-			System.out.println("Do you want to play \"Geschenkt ist noch zu teuer\"?");
+			System.out.println("How do you want to play \"Geschenkt ist noch zu teuer\"?");
 			System.out.println("0 = exit");
 			System.out.println("1 = play");
 			System.out.println("2 = standart Game for debugging");
@@ -18,22 +18,23 @@ public class GameMenue {
 		} else {
 			mode = presetMode;
 		}
-		
-		if (mode == 0) {
-			System.out.println("game is closing!");
-			System.exit(0);
-		} else if (mode == 1) {	
 
-			//What to do when mode is inserted
+		//Prepare the first game now
+		int gamesAlreadyPlayed = 0;
+		Player[] players;
+		Game firstGame = null;
+		int omit = 9;
+		int numPlayers = 0;
+
+		// Get a first Game and its Players but don't run the Game yet
+		if (mode == 1) {	
 			System.out.println("How many players will there be? (2-4)");
 			System.out.println();
 			int[] allowedNumbers = {2,3,4};
-			int numPlayers = letUserChoose(allowedNumbers, myScanner);
+			numPlayers = letUserChoose(allowedNumbers, myScanner);
+			firstGame = new Game(numPlayers, omit);
 
-			int omit = 9;
-
-			Game newGame = new Game(numPlayers, omit);
-			while (!newGame.enoughPlayers()){
+			while (!firstGame.enoughPlayers()){
 				System.out.print("A new Player is created. What will his name be? ");
 				String name = myScanner.next();
 				System.out.println("What will " + name + "\'s stratgie be like? ");
@@ -54,27 +55,57 @@ public class GameMenue {
 					System.out.println("\"Sonja\" pays, until card/2 <= coinsInTheMiddle");
 					System.out.println("\"Businessman\" pays, if card > coinsInTheMiddle");
 					System.out.println("\"Greedy\" takes the card, if that decreases his collected points");
-					System.out.println("\"Stefn\" is a mystery to everyone");
+					System.out.println("\"Stefan\" tries to get a deflation at the start");
 					stratgie = letUserChoose(allowedStrategies, myScanner);
 				}
-				newGame.addPlayer(name, stratgie);
-				System.out.println("We have created " + name + ".");
-				System.out.println();
+				firstGame.addPlayer(name, stratgie);
 			}
-			
-			System.out.println("Game starts in mode " + mode);		
-			newGame.run();
 		} else if (mode == 2) {
-			int numPlayers = 4; int omit = 9;
-			Game newGame = new Game(numPlayers, omit);
-			newGame.addPlayer("Jøhannes", 5);
-			newGame.addPlayer("Sandra", 4);
-			newGame.addPlayer("Sonja", 3);
-			newGame.addPlayer("Stefan", 6);
-			System.out.println("Game starts in mode " + mode);		
-			newGame.run();
-
+			numPlayers = 4;
+			firstGame = new Game(numPlayers, omit);
+			firstGame.addPlayer(new Player(firstGame, "Jøhannes", 5));
+			firstGame.addPlayer(new Player(firstGame, "Sandra", 4));
+			firstGame.addPlayer(new Player(firstGame, "Sonja", 3));
+			firstGame.addPlayer(new Player(firstGame, "Stefan", 6));
+		} else {
+			// mode == 0 is easy
+			System.out.println("game is closing!");
+			System.exit(0);
 		}
+
+		int gamesPlayed = 0;
+		int gamesToPlay = 1;
+
+		Game game = firstGame;
+
+		while (gamesPlayed < gamesToPlay) {
+			System.out.println("Game starts in mode " + mode + ".");
+			System.out.println();
+			players = game.run();
+			gamesPlayed++;
+
+			if (gamesPlayed == gamesToPlay) {
+				System.out.println("We have played enough, didn't we?");
+				System.out.println("0 = Thats enough!");
+				System.out.println("1 = Play again.");
+				System.out.println("x = Play x further Games.");
+				System.out.println();
+				int[] allowedRevanches = {0,1,2,4,5,6,7,8,9,10};
+				gamesToPlay += letUserChoose(allowedRevanches, myScanner);
+			}
+
+			game = new Game(numPlayers, omit);
+			if (gamesPlayed < gamesToPlay) {
+				for (Player player : players ) {
+					game.addPlayer(player);
+				}
+			}
+		}
+
+		System.out.println("We would love to show you a final ranking here.");
+		System.out.println("Unfortunatelly it has not been programmed yet.");
+
+
 
 	}
 
@@ -119,6 +150,8 @@ public class GameMenue {
 	}
 
 	public static void main(String[] args) {
+		// The presetMode becomes the mode of the Game.
+		// If presetMode is 0, the Player can choose.
 		int presetMode = 2;
 		startGameMenue(presetMode);
 	}	

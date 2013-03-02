@@ -11,28 +11,31 @@ public class Player {
 	private int coins;
 	private int[] collectedCards;
 	private Scanner myScanner;
+	private int[] rankCollector;
 
-	//Consturctor
-	public Player(Game game, String name, int strategie, int coins) {
+	//Consturctor and similar things
+	public Player(Game game, String name, int strategie) {
 		this.game = game;
+		this.rankCollector = new int[4];
 		this.name = name;
 		this.strategie = strategie;
 		if (strategie == 0){
 			//humans need scanner
 			myScanner = new Scanner(System.in);
 		}
-		this.coins = coins;
+		this.coins = game.getStartCoins();
 		this.collectedCards = new int[game.getMaxCardValue() + 1];
 	}
 
-	public String getName() {
-
-		return name;
+	public void resetPlayerForNewGame(Game game){
+		this.game = game;
+		this.coins = game.getStartCoins();
+		this.collectedCards = new int[game.getMaxCardValue() + 1];
+		System.out.println(name + " is ready for the new Game.");
 	}
 
-	public int getCoins() {
-		//This is allowed only for the ranking.
-		return coins;
+	public void youWereRanked(int rank){
+		rankCollector[rank-1]++;
 	}
 
 	//For playing
@@ -107,6 +110,21 @@ public class Player {
 			}
 		} while (!correct);
 		return chosen;
+	}
+
+	private void showYourCoins(){
+		System.out.print("These are your " + coins + " coins:");
+		for (int i = 1; i <= coins; i++ ) {
+			System.out.print(" o");
+		}
+		System.out.println();
+	}
+
+	private void showYourCards(){
+		System.out.print("The cards you have collected so far are:");
+		String myCards = Arrays.toString(takeAwayZeros(collectedCards));
+		System.out.println(myCards);
+		System.out.println("That sums up to " + getCollectedPoints() + " points.");
 	}
 
 	//Here be intelligence
@@ -213,20 +231,14 @@ public class Player {
 	}
 
 	//Human programmers meight find these usefull
+	// getters
 
-	private void showYourCoins(){
-		System.out.print("These are your " + coins + " coins:");
-		for (int i = 1; i <= coins; i++ ) {
-			System.out.print(" o");
-		}
-		System.out.println();
+	public String getName() {
+		return name;
 	}
 
-	private void showYourCards(){
-		System.out.print("The cards you have collected so far are:");
-		String myCards = Arrays.toString(takeAwayZeros(collectedCards));
-		System.out.println(myCards);
-		System.out.println("That sums up to " + getCollectedPoints() + " points.");
+	public int getCoins() {
+		return coins;
 	}
 
 	public int getCollectedPoints(){
@@ -239,7 +251,7 @@ public class Player {
 		return collectedPoints;
 	}
 
-	private boolean doYouNeedThatCard(int card){
+	public boolean doYouNeedThatCard(int card){
 		return (doYouOwnThatCard(card+1) || doYouOwnThatCard(card-1));
 	}
 

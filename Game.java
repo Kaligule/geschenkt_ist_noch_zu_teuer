@@ -21,7 +21,6 @@ public class Game {
 		this.omit = omit;
 		cardsOnStack = prepareCardsOnStack();
 		numCardsOnStack = cardsOnStack.length;
-
 	}
 
 	private int[] prepareCardsOnStack(){
@@ -35,7 +34,7 @@ public class Game {
 		return cardsOnStack;
 	}
 
-	private int[] shuffelCards(int[] cards) { 
+	private int[] shuffelCards(int[] cards) {
 		int tmp; 
 		int rand; 
 		Random generator = new Random(); 
@@ -60,15 +59,19 @@ public class Game {
 		return numPlayers;
 	}
 
-	public Player addPlayer(String name, int strategie) {
-		if (numPlayers < reqPlayers ){
-			Player newPlayer = new Player (this, name, strategie, startCoins);
-			players [numPlayers] = newPlayer; 
-			numPlayers += 1;
-			return newPlayer;
-		} else {
-			return null;
-		}
+	public int getStartCoins(){
+		return (startCoins);
+	}
+
+	//should not be unsed since the game Menue doesn't were to find this player
+	public void addPlayer(String name, int strategie) {
+		addPlayer(new Player (this, name, strategie));
+	}
+
+	public void addPlayer(Player player) {
+		player.resetPlayerForNewGame(this);
+		players [numPlayers] = player;
+		numPlayers += 1;
 	}
 
 	public boolean enoughPlayers(){
@@ -104,14 +107,13 @@ public class Game {
 			System.out.println("This was the last card.");
 		} else {
 			cardInTheMiddle = cardsOnStack[numCardsOnStack - 1];
-			System.out.println("The card in the middle is the " + cardInTheMiddle);
+			System.out.println("The card in the middle is the " + cardInTheMiddle + ".");
 			System.out.println("There are " + (numCardsOnStack -1)+ " other cards on the stack.");
 
 		}
 	}
 
-	//return ranking here
-	public void run(){
+	public Player[] run(){
 		System.out.println("The game beginns…");
 		updateCardInTheMiddle(numCardsOnStack);
 		move = 0;
@@ -136,6 +138,7 @@ public class Game {
 		}
 		System.out.println();
 		gameOver();
+		return players;
 	}
 
 	private void gameOver(){
@@ -147,6 +150,12 @@ public class Game {
 
 		Player[] ranking = sortByPoints(players);
 		table (ranking, "Rank");
+		System.out.println();
+		System.out.println();
+
+		for (int i = 0; i < ranking.length; i++){
+			ranking[i].youWereRanked(i+1);
+		}
 	}
 
 	public void table (Player[] listOfPlayers, String sortetBy){
