@@ -75,7 +75,6 @@ public class Game {
 	}
 
 	public boolean enoughPlayers(){
-
 		return (numPlayers == reqPlayers);
 	}
 
@@ -84,12 +83,14 @@ public class Game {
 	}
 
 	public Player getPlayer(int position) {
-
 		return players[position % numPlayers];
 	}
 
-	public int getMinCardValue(){
+	public Player[] getPlayers(){
+		return players;
+	}
 
+	public int getMinCardValue(){
 		return minCardValue;
 	}
 
@@ -98,7 +99,6 @@ public class Game {
 	}
 
 	public int getMaxCardValue(){
-
 		return maxCardValue;
 	}
 

@@ -13,6 +13,8 @@ public class Player {
 	private Scanner myScanner;
 	private static int possibleRanks = 4;
 	private int[] rankCollector;
+	private double value = 3.8;
+
 
 	//Consturctor and similar things
 	public Player(Game game, String name, int strategie) {
@@ -53,6 +55,14 @@ public class Player {
 	}
 
 	//For Userinterface
+
+	public double getValue(){
+		return value;
+	}
+
+	public void setValue(double newValue){
+		value = newValue;
+	}
 
 	private int[] takeAwayZeros(int[] array){
 		int anzNichtNuller = 0;
@@ -148,6 +158,14 @@ public class Player {
 		return (sumRanks/gamesPlayed);
 	}
 
+	private int gamesPlayed(){
+		int gamesPlayed = 0;
+		for (int i = 0; i < rankCollector.length; i++) {
+			gamesPlayed += rankCollector[i];
+		}
+		return (gamesPlayed);
+	}
+
 	//Here be intelligence
 	public boolean wouldYouPay(int cardInTheMiddle, int coinsInTheMiddle){
 		//Shortcut
@@ -230,6 +248,7 @@ public class Player {
 				if(doYouOwnThatCard(card+1) || doYouOwnThatCard(card-1)){
 					return(card/2 - 4 > coinsInTheMiddle);
 				} else {
+
 					if(game.getNumCardsOnStack() >= 10){
 						if(card >= 26){
 							return(card/2 - game.getNumPlayers() > coinsInTheMiddle);
@@ -242,6 +261,14 @@ public class Player {
 					} else {
 						return(card > coinsInTheMiddle);
 					}
+				}
+
+			// "Jøhannes" doesn't know his own strategie yet
+			} else if (strategie == 42) {
+				if(doYouNeedThatCard(card)){
+					return (card >= coinsInTheMiddle*2.0);
+				} else {
+					return (card >= coinsInTheMiddle*1.8);
 				}
 
 			} else if (false) {
